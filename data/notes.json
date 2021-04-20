@@ -2,7 +2,8 @@
   "notes": [
     {
       "title": "note",
-      "body": "this is a note"
+      "body": "this is a note",
+      "id": "0"
     }
   ]
 }
