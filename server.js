@@ -31,7 +31,7 @@ function validateNote(note) {
     if (!note.title || typeof note.title !== 'string') {
         return false;
     }
-    if (!note.body || typeof note.body !== 'string') {
+    if (!note.text || typeof note.text !== 'string') {
         return false;
     }
 
@@ -73,6 +73,22 @@ app.post('/api/notes', (req, res) => {
         const note = createNewNote(req.body, notes);
         res.json(note);
     }
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+    notes.splice(parseInt(req.params.id), 1);
+
+    let index = 0;
+    notes.forEach(note => {
+        note.id = `${index}`;
+        index++;
+    });
+    
+    fs.writeFileSync(
+        path.join(__dirname, './data/notes.json'),
+        JSON.stringify({ notes: notes }, null, 2)
+    );
+    res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
