@@ -6,6 +6,7 @@ const {
     removeNote
 } = require('../../lib/notes.js');
 const { notes } = require('../../data/notes.json');
+const uuid = require('uuid');
 
 router.get('/notes', (req, res) => {
     let results = notes;
@@ -22,7 +23,7 @@ router.get('/notes/:id', (req, res) => {
 });
 
 router.post('/notes', (req, res) => {
-    req.body.id = notes.length.toString();
+    req.body.id = uuid.v4();
 
     if (!validateNote(req.body)) {
         res.status(400).send('The note is not properly formatted.')
