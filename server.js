@@ -6,9 +6,11 @@ const path = require('path');
 const PORT = process.env.PORT || 3001;
 const app = express();
 // parse incoming string or array data
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// serves files in public
+app.use(express.static('public'));
 
 function findById(id, notesArray) {
     return notesArray.filter(note => note.id === id)[0];
@@ -48,6 +50,18 @@ app.get('/api/notes/:id', (req, res) => {
     } else {
         res.sendStatus(404);
     }
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'))
+});
+
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'))
 });
 
 app.post('/api/notes', (req, res) => {
